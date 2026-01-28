@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.0.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.asciidoctor.jvm.convert' version '4.0.5'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+description = 'lab5'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+dependencies {
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Database
+    implementation 'com.h2database:h2:2.2.224'
+    implementation 'org.hibernate.orm:hibernate-core'
+    implementation 'com.mysql:mysql-connector-j:9.5.0'
+
+    // JavaFX
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+    implementation 'org.controlsfx:controlsfx:11.2.1'
+    implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
+        exclude group: 'org.openjfx'
+    }
+    implementation 'org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0'
+
+    // Testing (JUnit 5 + MockMvc)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // includes JUnit 5, Mockito, MockMvc
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+application {
+    mainClass = 'com.example.lab5.Lab5Application'
+}

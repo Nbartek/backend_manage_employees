@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Ustawienia połączenia JDBC (dla H2) -->
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.url">jdbc:h2:./mojabaza</property> <!-- Baza utworzy się w folderze projektu -->
+        <property name="connection.username">sa</property>
+        <property name="connection.password"></property>
+
+        <!-- Dialekt SQL -->
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <!-- Wyświetlanie zapytań SQL w konsoli (przydatne do debugowania) -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Automatyczne tworzenie tabel (update: aktualizuje schemat, create: tworzy od nowa przy każdym starcie) -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Tutaj będziemy dodawać klasy encji (mapping) -->
+         <mapping class="from_lab_2.Employee"/>
+<!--         <mapping class="from_lab_2.EmployeeCondition"/>-->
+         <mapping class="from_lab_2.ClassEmployee"/>
+        <mapping class="from_lab_2.Rate"/>
+    </session-factory>
+</hibernate-configuration>
